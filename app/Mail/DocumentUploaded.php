@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Symfony\Component\Mime\Email;
 
 class DocumentUploaded extends Mailable
 {
@@ -19,7 +20,7 @@ class DocumentUploaded extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private $name, private $fileName)
     {
         //
     }
@@ -32,8 +33,8 @@ class DocumentUploaded extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('jeffrey@example.com', 'Jeffrey Way'),
-            subject: 'Document Uploaded',
+            from: new Address('admin@test.tes', 'Dont Reply'),
+            subject: 'S3 File Upload notification',
         );
     }
 
@@ -45,7 +46,8 @@ class DocumentUploaded extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.upload-mail',
+            with: ['name' => $this->name, 'fileName'=>$this->fileName]
         );
     }
 

@@ -1,0 +1,1 @@
+User {{ $name }} uploaded file to s3 File Name:{{ $fileName }}.
